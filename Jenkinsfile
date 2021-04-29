@@ -4,7 +4,7 @@ def getdockertag(){
 pipeline {
     agent any
     environment {
-        DOCKER_REGISTRY = "varunpalekar1/php-test"
+        DOCKER_REGISTRY = "kamalidariush/cicd"
         DOCKER_TAG = getdockertag()
     }
     stages {
