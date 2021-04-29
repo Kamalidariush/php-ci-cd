@@ -20,53 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('UnitTest') {
-            environment {
-                DB_HOST = "localhost"
-                DB_DATABASE = "laravel_test"
-                DB_USERNAME = "laravel_test"
-                DB_PASSWORD = "my_pass"
-            }
-            steps {
-                script {
-                    try{
-                        echo "Running Test cases"
-                        sh './vendor/bin/phpunit --colors tests --log-junit reports/junit.xml'
-                    }
-                    catch(Exception e){
-                        if ( GIT_BRANCH ==~ /.*master|.*hotfix\/.*|.*release\/.*/ )
-                            error "Test case failed"
-                        else
-                            echo "Skipped test if from personal or feature branch"
-                    }
-                    try{
-                        echo "Running Test code coverage"
-                        sh './vendor/bin/phpunit --coverage-clover reports/codeCoverage.xml'
-                    }
-                    catch(Exception e){
-                        if ( GIT_BRANCH ==~ /.*master|.*hotfix\/.*|.*release\/.*/ )
-                            error "Code coverage failed"
-                        else
-                            echo "Skipped code coverage if from personal or feature branch"
-                    }
-                }  
-            }
-        }
-        stage('CodeAnalysis') {
-            when {
-                expression {
-                    GIT_BRANCH ==~ /.*master|.*feature\/.*|.*develop|.*hotfix\/.*|.*release\/.*/
-                }
-            }
-            steps {	
-                script {
-                    scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                }
-                withSonarQubeEnv('sonarqube.io') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.branch.name=${GIT_BRANCH} -Dsonar.projectKey=varunpalekar_php-test -Dsonar.organization=varunpalekar-github"
-                }
-            }
-        }
+        
         stage('DockerPush') {
             when {
                 expression {
