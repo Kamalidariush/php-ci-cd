@@ -47,8 +47,7 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy composer.lock and composer.json
 COPY composer.lock composer.json /var/www/
 
-RUN composer install --prefer-source --no-dev --no-autoloader --no-scripts --no-progress --no-suggest
-RUN composer self-update --1
+RUN composer install --version=1 --prefer-source --no-dev --no-autoloader --no-scripts --no-progress --no-suggest
 
 # Copy existing application directory contents
 COPY . /var/www
