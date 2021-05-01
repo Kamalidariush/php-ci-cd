@@ -30,7 +30,7 @@ pipeline {
             }
             steps {
                 script{
-                    docker.withRegistry( 'public-docker-hub', 'kamaliid') {
+                    docker.withRegistry( '', 'kamaliid') {
                         
                         def customImage = docker.build("${env.DOCKER_REGISTRY}:${env.DOCKER_TAG}")
                         customImage.push()
