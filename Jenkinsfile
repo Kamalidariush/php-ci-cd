@@ -5,7 +5,7 @@ pipeline {
     agent any
     environment {
         DOCKER_REGISTRY = "kamalidariush/cicd"
-        Credentials_id = "kamaliid"
+        ID = "kamaliid"
         DOCKER_TAG = getdockertag()
     }
     stages {
@@ -30,7 +30,7 @@ pipeline {
             }
             steps {
                 script{
-                    docker.withRegistry( 'public-docker-hub', 'Credentials_id') {
+                    docker.withRegistry( 'public-docker-hub', 'ID') {
                         
                         def customImage = docker.build("${env.DOCKER_REGISTRY}:${env.DOCKER_TAG}")
                         customImage.push()
